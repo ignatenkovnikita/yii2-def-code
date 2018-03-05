@@ -1,10 +1,11 @@
 <?php
 
+use ignatenkovnikita\defcode\models\DefCode;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\search\DefCodeSearch */
+/* @var $searchModel ignatenkovnikita\defcode\models\DefCodeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('defcode', 'Def Codes');
@@ -18,22 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-//            'id',
             'from',
             'to',
             'capacity',
-            'operator',
-            'region',
+            [
+                'attribute' => 'operator',
+                'filter' => DefCode::getOperators(true)
+            ],
+            [
+                'attribute' => 'region',
+                'filter' => DefCode::getRegions(true)
+            ],
             [
                 'attribute' => 'type',
-                'filter' => \ignatenkovnikita\defcode\models\DefCode::getTypes()
+                'filter' => DefCode::getTypes()
             ],
-            'created_at:datetime',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

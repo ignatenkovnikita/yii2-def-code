@@ -2,6 +2,7 @@
 
 namespace ignatenkovnikita\defcode\models;
 
+use common\behaviors\ListBehavior;
 use yii\db\ActiveQuery;
 
 /**
@@ -11,6 +12,7 @@ use yii\db\ActiveQuery;
  */
 class DefCodeQuery extends ActiveQuery
 {
+    use ListBehavior;
     /*public function active()
     {
     return $this->andWhere('[[status]]=1');

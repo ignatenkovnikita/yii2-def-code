@@ -94,4 +94,24 @@ class DefCode extends ActiveRecord
     {
         return new DefCodeQuery(get_called_class());
     }
+
+
+    public static function getRegions($asList = false)
+    {
+        $query = self::find()->select('region')->groupBy('region');
+        if ($asList) {
+            return $query->asList('region', 'region');
+        }
+        return $query->all();
+    }
+
+
+    public static function getOperators($asList = false)
+    {
+        $query = self::find()->select('operator')->groupBy('operator');
+        if ($asList) {
+            return $query->asList('operator', 'operator');
+        }
+        return $query->all();
+    }
 }
