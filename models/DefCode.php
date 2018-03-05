@@ -70,10 +70,10 @@ class DefCode extends \common\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return ignatenkovnikita\defcode\models\DefCodeQuery the active query used by this AR class.
+     * @return DefCodeQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ignatenkovnikita\defcode\models\DefCodeQuery(get_called_class());
+        return new DefCodeQuery(get_called_class());
     }
 }
