@@ -1,4 +1,5 @@
 <?php
+
 namespace ignatenkovnikita\defcode;
 
 /**
@@ -11,6 +12,7 @@ namespace ignatenkovnikita\defcode;
  */
 
 use ignatenkovnikita\defcode\console\DefCodeController;
+use ignatenkovnikita\defcode\models\DefCode;
 use yii\base\BootstrapInterface;
 
 /**
@@ -18,30 +20,37 @@ use yii\base\BootstrapInterface;
  * User: ignatenkovnikita
  * Web Site: http://IgnatenkovNikita.ru
  */
-
 class Module extends \yii\base\Module implements BootstrapInterface
 {
     public $controllerNamespace = 'ignatenkovnikita\defcode\controllers';
 
 
-    public function bootstrap($app)
+    public $listUrl = [
+        DefCode::TYPE_ABC3 => 'https://www.rossvyaz.ru/docs/articles/Kody_ABC-3kh.csv',
+        DefCode::TYPE_ABC4 => 'https://www.rossvyaz.ru/docs/articles/Kody_ABC-4kh.csv',
+        DefCode::TYPE_ABC8 => 'https://www.rossvyaz.ru/docs/articles/Kody_ABC-8kh.csv',
+        DefCode::TYPE_ABC9 => 'https://www.rossvyaz.ru/docs/articles/Kody_DEF-9kh.csv',
+    ];
+
+    public
+    function bootstrap($app)
     {
         if ($app instanceof \yii\console\Application) {
             $app->controllerMap['def-code'] = [
                 'class' => DefCodeController::class,
 //                'module' => $this
             ];
-            //$app->controllerNamespace = 'sevenfloor\paymentmanager\console';
+//            $app->controllerNamespace = 'ignatenkovnikita\defcode\console';
         }
     }
 
 
-    public static function backendControllerNamespace()
+    public
+    static function backendControllerNamespace()
     {
         $class = new \ReflectionClass(static::class);
         return $class->getNamespaceName() . '\\backend\\controllers';
     }
-
 
 
 }

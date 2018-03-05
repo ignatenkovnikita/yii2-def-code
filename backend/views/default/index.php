@@ -25,9 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'to',
             'capacity',
             'operator',
-             'region',
-             'type',
-             'created_at',
+            'region',
+            [
+                'attribute' => 'type',
+                'filter' => \ignatenkovnikita\defcode\models\DefCode::getTypes()
+            ],
+            'created_at',
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],

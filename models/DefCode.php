@@ -3,6 +3,7 @@
 namespace ignatenkovnikita\defcode\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "def_code".
@@ -17,8 +18,25 @@ use Yii;
  * @property integer $created_at Created At
  * @property integer $updated_at Updated At
  */
-class DefCode extends \common\ActiveRecord
+class DefCode extends ActiveRecord
 {
+
+    const TYPE_ABC3 = 'abc3';
+    const TYPE_ABC4 = 'abc4';
+    const TYPE_ABC8 = 'abc8';
+    const TYPE_ABC9 = 'abc9';
+
+
+    public static function getTypes()
+    {
+        $types = [
+            self::TYPE_ABC3 => 'abc3',
+            self::TYPE_ABC4 => 'abc4',
+            self::TYPE_ABC8 => 'abc8',
+            self::TYPE_ABC9 => 'abc9',
+        ];
+        return $types;
+    }
 
 
     /**
