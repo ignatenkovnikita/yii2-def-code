@@ -30,12 +30,18 @@ class DefCodeFactory
 
 
         $model = new DefCode();
-        $model->from = $data[0] . $data[1];
-        $model->to = $data[0] . $data[2];
-        $model->capacity = $data[3];
-        $model->operator = iconv('windows-1251', 'utf-8', $data[4]);
-        $model->region = iconv('windows-1251', 'utf-8', $data[5]);
+        $model->from = self::getValueFromData($data, 0) . self::getValueFromData($data, 1);
+        $model->to = self::getValueFromData($data, 0) . self::getValueFromData($data, 2);
+        $model->capacity = self::getValueFromData($data, 3);
+        $model->operator = iconv('windows-1251', 'utf-8', self::getValueFromData($data, 4));
+        $model->region = iconv('windows-1251', 'utf-8', self::getValueFromData($data, 5));
 
         return $model;
+    }
+
+
+    public static function getValueFromData($data, $index)
+    {
+        return isset($data[$index]) ? $data[$index] : '';
     }
 }

@@ -102,6 +102,7 @@ class DefCodeController extends \yii\console\Controller
                 $model = DefCodeFactory::createFromLine($line);
                 $model->type = $type;
                 if ($model->validate()) {
+//                    Yii::$app->db->createCommand()->insert(DefCode::tableName(), $model->attributes)->execute();
                     $model->save();
                     $insertLines++;
                 } else {

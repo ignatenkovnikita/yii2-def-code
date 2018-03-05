@@ -20,13 +20,27 @@ Add to console config
     ...
     'def-code' => [
         'class' => \ignatenkovnikita\defcode\Module::class
-    ]
+    ],
+    ...
 ],
 ```
 
-
-Install
+Apply Migration
 
 ```bash
 ./console/yii migrate --migrationPath=vendor/ignatenkovnikita/defcode/migrations/  
 ```
+
+Workflow load and import data:
+- Download files, command 
+ ```php
+./console/yii def-code/download-all
+```
+- After import files, command
+```php
+./console/yii def-code/import
+```
+
+TODO
+- add test
+- refactoring
