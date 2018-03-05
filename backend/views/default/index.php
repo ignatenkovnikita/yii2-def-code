@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'type',
                 'filter' => \ignatenkovnikita\defcode\models\DefCode::getTypes()
             ],
-            'created_at',
+            'created_at:datetime',
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],
