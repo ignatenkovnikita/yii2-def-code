@@ -114,16 +114,15 @@ class DefCode extends ActiveRecord
         return $query->all();
     }
 
-//    public static function getModelFromPhone($phone)
-//    {
-//        if (strlen($phone) != 11) {
-//            return null;
-//        }
-//
-//        // we store from and to fields without 7 at the beginning
-//        $phone = substr($phone, 1, 10) * 1;
-//
-//        $this->getDbCriteria()->addCondition($phone . '>= `from`')->addCondition($phone . '<= `to`');
-//        return $this->find();
-//    }
+    public static function getModelFromPhone($phone)
+    {
+        if (strlen($phone) != 11) {
+            return null;
+        }
+
+        // we store from and to fields without 7 at the beginning
+        $phone = substr($phone, 1, 10) * 1;
+
+        return self::find()->andWhere(['<=', 'from', $phone])->andWhere(['>=', 'to', $phone])->one();
+    }
 }
