@@ -1,7 +1,11 @@
 # yii2-def-code
 Yii2 Def Code Module
 
+### Install
 
+```bash
+composer require ignatenkovnikita/yii2-def-code:dev-master
+```
 
 
 Add to backend config
