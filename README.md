@@ -32,7 +32,7 @@ Add to console config
 Apply Migration
 
 ```bash
-./console/yii migrate --migrationPath=vendor/ignatenkovnikita/defcode/migrations/  
+./console/yii migrate --migrationPath=vendor/ignatenkovnikita/yii2-def-code/migrations/  
 ```
 
 Workflow load and import data:
