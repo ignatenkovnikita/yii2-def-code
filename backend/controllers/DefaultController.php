@@ -47,9 +47,16 @@ class DefaultController extends \yii\web\Controller
         $searchModel = new DefCodeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $operators = DefCode::getOperators(true);
+        $regions = DefCode::getRegions(true);
+        $types = DefCode::getTypes();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'operators' => $operators,
+            'regions' => $regions,
+            'types' => $types,
         ]);
     }
 

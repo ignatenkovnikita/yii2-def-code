@@ -14,6 +14,10 @@ class m180305_002527_init extends Migration
 
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
         $this->createTable(self::TABLE_NAME, [
             'id' => $this->primaryKey(),
             'from' => $this->bigInteger(),
@@ -24,7 +28,7 @@ class m180305_002527_init extends Migration
             'type' => $this->string(),
             'created_at' => $this->bigInteger(),
             'updated_at' => $this->bigInteger(),
-        ]);
+        ], $tableOptions);
 
     }
 

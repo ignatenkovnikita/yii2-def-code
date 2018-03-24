@@ -1,12 +1,16 @@
 <?php
 
 use ignatenkovnikita\defcode\models\DefCode;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel ignatenkovnikita\defcode\models\DefCodeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $operators DefCode[] */
+/* @var $regions DefCode[] */
+/* @var $types DefCode[] */
 
 $this->title = Yii::t('defcode', 'Def Codes');
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,15 +28,41 @@ $this->params['breadcrumbs'][] = $this->title;
             'capacity',
             [
                 'attribute' => 'operator',
-                'filter' => DefCode::getOperators(true)
+                'format' => 'raw',
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'initValueText' => $searchModel->operator,
+                    'attribute' => 'operator',
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'options' => [
+                        'placeholder' => 'Please select ...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                    'data' => $operators
+                ]),
             ],
             [
                 'attribute' => 'region',
-                'filter' => DefCode::getRegions(true)
+                'format' => 'raw',
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'initValueText' => $searchModel->region,
+                    'attribute' => 'region',
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'options' => [
+                        'placeholder' => 'Please select ...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                    'data' => $regions
+                ]),
             ],
             [
                 'attribute' => 'type',
-                'filter' => DefCode::getTypes()
+                'filter' => $types
             ],
         ],
     ]); ?>

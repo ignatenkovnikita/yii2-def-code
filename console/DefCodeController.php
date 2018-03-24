@@ -11,6 +11,9 @@ namespace ignatenkovnikita\defcode\console;
  * @date        $date$
  */
 
+use ignatenkovnikita\csv\CsvImporter;
+use ignatenkovnikita\csv\CsvReader;
+use ignatenkovnikita\defcode\components\DbImporter;
 use ignatenkovnikita\defcode\models\DefCode;
 use ignatenkovnikita\defcode\models\DefCodeFactory;
 use ignatenkovnikita\defcode\Module;
@@ -42,16 +45,32 @@ class DefCodeController extends \yii\console\Controller
 
     public function actionImport()
     {
-        foreach ($this->moduleDefCode->listUrl as $name => $url) {
-            $fileName = $this->basePath . $name . '.csv';
+        ini_set('memory_limit', '-1');
+        $time = microtime(true);
+
+
+        foreach ($this->getList() as $type => $url) {
+            $fileName = $this->basePath . $type . '.csv';
             if (file_exists($fileName) && filesize($fileName)) {
-                $this->log('start file ' . $fileName . ', type ' . $name);
-                $this->handleFile($fileName, $name);
-                $this->log('end file ' . $fileName . ', type ' . $name);
+                $this->log('start file ' . $fileName . ', type ' . $type);
+
+                $importer = new CsvImporter();
+                $importer->setData(new CsvReader([
+                    'filename' => $fileName,
+                    'fgetcsvOptions' => [
+//                'delimiter' => '\n'
+                    ],
+                    'startFromLine' => 1
+                ]));
+                $importerClass = new DbImporter();
+                $r = $importer->import($importerClass, ['type' => $type]);
+                $this->log($r);
+                $this->log('end file ' . $fileName . ', type ' . $type);
             } else {
                 $this->log('not correct file ' . $fileName);
             }
         }
+        $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
     }
 
     public function actionDownloadAll()
@@ -59,21 +78,16 @@ class DefCodeController extends \yii\console\Controller
         $this->log('start download all');
 
 
-        foreach ($this->getList() as $name => $url) {
-
-
-            $fileName = $this->basePath . $name . '.csv';
+        foreach ($this->getList() as $type => $url) {
+            $fileName = $this->basePath . $type . '.csv';
             $this->log('download ' . $fileName);
             if (file_exists($fileName)) {
-                $newFileName = $this->basePath . $name . '_' . date('Y-m-d-H-i-s', filemtime($fileName)) . '.csv';
+                $newFileName = $this->basePath . $type . '_' . date('Y-m-d-H-i-s', filemtime($fileName)) . '.csv';
                 rename($fileName, $newFileName);
             }
             file_put_contents($fileName, fopen($url, 'r'));
         }
-
-
     }
-
 
     protected function getList()
     {
@@ -86,34 +100,5 @@ class DefCodeController extends \yii\console\Controller
         echo date('Y-m-d H:i:s') . ' ' . $text . PHP_EOL;
     }
 
-
-    protected function handleFile($file, $type)
-    {
-        $lines = file($file);
-        unset($lines[0]);
-
-        $transaction = Yii::$app->db->beginTransaction();
-
-        DefCode::deleteAll('type = :type', [':type' => $type]);
-
-        $insertLines = 0;
-        foreach ($lines as $i => $line) {
-            try {
-                $model = DefCodeFactory::createFromLine($line);
-                $model->type = $type;
-                if ($model->validate()) {
-//                    Yii::$app->db->createCommand()->insert(DefCode::tableName(), $model->attributes)->execute();
-                    $model->save();
-                    $insertLines++;
-                } else {
-                    $this->log('error save line ' . $i . ', errors ' . print_r($model->errors, true));
-                }
-            } catch (Exception $e) {
-                $this->log("Exception while inserting line " . $i . ' ' . $line . ', error ' . $e->getMessage());
-            }
-        }
-        $transaction->commit();
-        $this->log('insert ' . $insertLines);
-    }
 
 }

@@ -29,13 +29,12 @@ class DefCode extends ActiveRecord
 
     public static function getTypes()
     {
-        $types = [
-            self::TYPE_ABC3 => 'abc3',
-            self::TYPE_ABC4 => 'abc4',
-            self::TYPE_ABC8 => 'abc8',
-            self::TYPE_ABC9 => 'abc9',
+        return [
+            self::TYPE_ABC3,
+            self::TYPE_ABC4,
+            self::TYPE_ABC8,
+            self::TYPE_ABC9,
         ];
-        return $types;
     }
 
 
@@ -114,4 +113,17 @@ class DefCode extends ActiveRecord
         }
         return $query->all();
     }
+
+//    public static function getModelFromPhone($phone)
+//    {
+//        if (strlen($phone) != 11) {
+//            return null;
+//        }
+//
+//        // we store from and to fields without 7 at the beginning
+//        $phone = substr($phone, 1, 10) * 1;
+//
+//        $this->getDbCriteria()->addCondition($phone . '>= `from`')->addCondition($phone . '<= `to`');
+//        return $this->find();
+//    }
 }
