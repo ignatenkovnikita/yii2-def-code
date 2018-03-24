@@ -44,6 +44,10 @@ Workflow load and import data:
 ```php
 ./console/yii def-code/import
 ```
+- Delete old files
+```php
+./console/yii def-code/delete-old-files
+```
 
 TODO
 - add test
