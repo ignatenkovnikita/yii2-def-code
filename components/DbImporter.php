@@ -32,24 +32,31 @@ class DbImporter extends AbstractImporter implements ImportInterface
     {
         $transaction = Yii::$app->db->beginTransaction();
 
-        Yii::$app->db->createCommand()->delete(DefCode::tableName(), 'type = :type', [':type' => $params['type']])->execute();
+        DefCode::deleteAll('type = :type', [':type' => $params['type']]);
+//        Yii::$app->db->createCommand()->delete(DefCode::tableName(), 'type = :type', [':type' => $params['type']])->execute();
 
+        $isCommit = true;
         $insertLines = 0;
         foreach ($data as $i => $line) {
             try {
                 $model = DefCodeFactory::createFromLine($line[0]);
                 $model->type = $params['type'];
-                if ($model->validate()) {
-                    Yii::$app->db->createCommand()->insert(DefCode::tableName(), $model->attributes)->execute();
+                if ($model->save()) {
+//                    Yii::$app->db->createCommand()->insert(DefCode::tableName(), $model->attributes)->execute();
                     $insertLines++;
                 } else {
                     $this->addToLog('error save line ' . $i . ', errors ' . print_r($model->errors, true));
                 }
             } catch (Exception $e) {
+                $isCommit = false;
                 $this->addToLog("Exception while inserting line " . $i . ' ' . $line . ', error ' . $e->getMessage());
             }
         }
-        $transaction->commit();
+        if ($isCommit) {
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
         $this->addToLog('insert ' . $insertLines);
 
         return $this->getLog();
