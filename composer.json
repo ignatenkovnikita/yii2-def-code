@@ -21,7 +21,7 @@
   "require": {
     "yiisoft/yii2": "*",
     "kartik-v/yii2-widget-select2": "@dev",
-    "ignatenkovnikita/little-csv-helper": "dev-master"
+    "ignatenkovnikita/little-csv-helper": "*"
   },
   "autoload": {
     "psr-4": {
