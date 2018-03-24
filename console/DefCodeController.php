@@ -19,6 +19,7 @@ use ignatenkovnikita\defcode\models\DefCodeFactory;
 use ignatenkovnikita\defcode\Module;
 use Yii;
 use yii\base\Exception;
+use yii\helpers\FileHelper;
 
 /**
  * Created by PhpStorm.
@@ -86,6 +87,19 @@ class DefCodeController extends \yii\console\Controller
                 rename($fileName, $newFileName);
             }
             file_put_contents($fileName, fopen($url, 'r'));
+        }
+    }
+
+    public function actionDeleteOldFiles($day = 7)
+    {
+        $files = FileHelper::findFiles($this->basePath, ['fileTypes' => ['csv']]);
+
+        foreach ($files as $file) {
+
+            if (time() - filectime($file) > $day * 24 * 60 * 60) {
+                $this->log('Delete file ' . $file);
+                unlink($file);
+            }
         }
     }
 

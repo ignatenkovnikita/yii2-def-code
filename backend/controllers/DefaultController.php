@@ -49,7 +49,7 @@ class DefaultController extends \yii\web\Controller
 
         $operators = DefCode::getOperators(true);
         $regions = DefCode::getRegions(true);
-        $types = DefCode::getTypes();
+        $types = array_combine(DefCode::getTypes(),DefCode::getTypes());
 
         return $this->render('index', [
             'searchModel' => $searchModel,
