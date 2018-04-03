@@ -25,8 +25,8 @@ class DefCodeSearch extends DefCode
     public function rules()
     {
         return [
-            [['id', 'from', 'to', 'capacity', 'created_at', 'updated_at'], 'integer'],
-            [['operator', 'region', 'type'], 'safe'],
+            [['id', 'from', 'to', 'capacity', 'created_at', 'updated_at', 'operator_id', 'region_id'], 'integer'],
+            [['type'], 'safe'],
         ];
     }
 
@@ -65,11 +65,11 @@ class DefCodeSearch extends DefCode
             'capacity' => $this->capacity,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'region_id' => $this->region_id,
+            'operator_id' => $this->operator_id,
         ]);
 
-        $query->andFilterWhere(['like', 'operator', $this->operator])
-            ->andFilterWhere(['like', 'region', $this->region])
-            ->andFilterWhere(['like', 'type', $this->type]);
+        $query->andFilterWhere(['like', 'type', $this->type]);
 
         return $dataProvider;
     }

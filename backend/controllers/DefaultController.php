@@ -14,6 +14,8 @@ namespace ignatenkovnikita\defcode\backend\controllers;
 
 use ignatenkovnikita\defcode\models\DefCode;
 use ignatenkovnikita\defcode\models\DefCodeSearch;
+use ignatenkovnikita\defcode\models\DefOperator;
+use ignatenkovnikita\defcode\models\DefRegion;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -23,7 +25,6 @@ use yii\web\NotFoundHttpException;
  * User: ignatenkovnikita
  * Web Site: http://IgnatenkovNikita.ru
  */
-
 class DefaultController extends \yii\web\Controller
 {
     public function behaviors()
@@ -47,9 +48,9 @@ class DefaultController extends \yii\web\Controller
         $searchModel = new DefCodeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $operators = DefCode::getOperators(true);
-        $regions = DefCode::getRegions(true);
-        $types = array_combine(DefCode::getTypes(),DefCode::getTypes());
+        $operators = DefOperator::find()->asList();
+        $regions = DefRegion::find()->asList();
+        $types = array_combine(DefCode::getTypes(), DefCode::getTypes());
 
         return $this->render('index', [
             'searchModel' => $searchModel,

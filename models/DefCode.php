@@ -2,8 +2,8 @@
 
 namespace ignatenkovnikita\defcode\models;
 
-use Yii;
 use yii\db\ActiveRecord;
+
 
 /**
  * This is the model class for table "def_code".
@@ -12,8 +12,8 @@ use yii\db\ActiveRecord;
  * @property integer $from From
  * @property integer $to To
  * @property integer $capacity Capacity
- * @property string $operator Operator
- * @property string $region Region
+ * @property string $operator_id Operator
+ * @property string $region_id Region
  * @property string $type Type
  * @property integer $created_at Created At
  * @property integer $updated_at Updated At
@@ -62,8 +62,8 @@ class DefCode extends ActiveRecord
     public function rules()
     {
         return [
-            [['from', 'to', 'capacity', 'created_at', 'updated_at'], 'integer'],
-            [['operator', 'region', 'type'], 'string', 'max' => 255],
+            [['from', 'to', 'capacity', 'created_at', 'updated_at', 'operator_id', 'region_id'], 'integer'],
+            [['type'], 'string', 'max' => 255],
         ];
     }
 
@@ -77,8 +77,8 @@ class DefCode extends ActiveRecord
             'from' => 'From',
             'to' => 'To',
             'capacity' => 'Capacity',
-            'operator' => 'Operator',
-            'region' => 'Region',
+            'operator_id' => 'Operator Id',
+            'region_id' => 'Region ID',
             'type' => 'Type',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -94,24 +94,22 @@ class DefCode extends ActiveRecord
         return new DefCodeQuery(get_called_class());
     }
 
-
-    public static function getRegions($asList = false)
+    /**
+     * @return \yii\db\ActiveQuery
+     * @throws \Exception
+     */
+    public function getOperator()
     {
-        $query = self::find()->select('region')->groupBy('region');
-        if ($asList) {
-            return $query->asList('region', 'region');
-        }
-        return $query->all();
+        return $this->hasOne(DefOperator::class, ['id' => 'operator_id']);
     }
 
-
-    public static function getOperators($asList = false)
+    /**
+     * @return \yii\db\ActiveQuery
+     * @throws \Exception
+     */
+    public function getRegion()
     {
-        $query = self::find()->select('operator')->groupBy('operator');
-        if ($asList) {
-            return $query->asList('operator', 'operator');
-        }
-        return $query->all();
+        return $this->hasOne(DefRegion::class, ['id' => 'region_id']);
     }
 
     public static function getModelFromPhone($phone)

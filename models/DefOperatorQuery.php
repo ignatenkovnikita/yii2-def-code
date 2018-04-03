@@ -1,22 +1,30 @@
 <?php
+/**
+ * Copyright (C) $user$, Inc - All Rights Reserved
+ *
+ *  <other text>
+ * @file        DefOperatorQuery.php
+ * @author      ignatenkovnikita
+ * @date        $date$
+ */
 
 namespace ignatenkovnikita\defcode\models;
 
-use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the ActiveQuery class for [[DefCode]].
+ * This is the ActiveQuery class for [[DefOperator]].
  *
- * @see DefCode
+ * @see DefOperator
  */
-class DefCodeQuery extends ActiveQuery
+class DefOperatorQuery extends \common\ActiveQuery
 {
 
     public function asList($key = 'id', $name = 'name', $options = [])
     {
         return ArrayHelper::map($this->all(), $key, $name);
     }
+
 
     /*public function active()
     {
@@ -25,7 +33,7 @@ class DefCodeQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return DefCode[]|array
+     * @return DefOperator[]|array
      */
     public function all($db = null)
     {
@@ -34,7 +42,7 @@ class DefCodeQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return DefCode|array|null
+     * @return DefOperator|array|null
      */
     public function one($db = null)
     {

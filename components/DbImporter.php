@@ -13,8 +13,6 @@ namespace ignatenkovnikita\defcode\components;
 
 use Exception;
 use ignatenkovnikita\csv\AbstractImporter;
-use ignatenkovnikita\csv\CsvImporter;
-use ignatenkovnikita\csv\CsvReader;
 use ignatenkovnikita\csv\ImportInterface;
 use ignatenkovnikita\defcode\models\DefCode;
 use ignatenkovnikita\defcode\models\DefCodeFactory;
@@ -49,7 +47,7 @@ class DbImporter extends AbstractImporter implements ImportInterface
                 }
             } catch (Exception $e) {
                 $isCommit = false;
-                $this->addToLog("Exception while inserting line " . $i . ' ' . $line . ', error ' . $e->getMessage());
+                $this->addToLog("Exception while inserting line " . $i . ', error ' . $e->getMessage());
             }
         }
         if ($isCommit) {

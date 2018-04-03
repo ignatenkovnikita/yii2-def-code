@@ -1,16 +1,23 @@
 <?php
+/**
+ * Copyright (C) $user$, Inc - All Rights Reserved
+ *
+ *  <other text>
+ * @file        DefRegionQuery.php
+ * @author      ignatenkovnikita
+ * @date        $date$
+ */
 
 namespace ignatenkovnikita\defcode\models;
 
-use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the ActiveQuery class for [[DefCode]].
+ * This is the ActiveQuery class for [[DefRegion]].
  *
- * @see DefCode
+ * @see DefRegion
  */
-class DefCodeQuery extends ActiveQuery
+class DefRegionQuery extends \common\ActiveQuery
 {
 
     public function asList($key = 'id', $name = 'name', $options = [])
@@ -25,7 +32,7 @@ class DefCodeQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return DefCode[]|array
+     * @return DefRegion[]|array
      */
     public function all($db = null)
     {
@@ -34,7 +41,7 @@ class DefCodeQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return DefCode|array|null
+     * @return DefRegion|array|null
      */
     public function one($db = null)
     {

@@ -33,8 +33,12 @@ class DefCodeFactory
         $model->from = self::getValueFromData($data, 0) . self::getValueFromData($data, 1);
         $model->to = self::getValueFromData($data, 0) . self::getValueFromData($data, 2);
         $model->capacity = self::getValueFromData($data, 3);
-        $model->operator = iconv('windows-1251', 'utf-8', self::getValueFromData($data, 4));
-        $model->region = iconv('windows-1251', 'utf-8', self::getValueFromData($data, 5));
+
+        $operatorName = iconv('windows-1251', 'utf-8', self::getValueFromData($data, 4));
+        $model->operator_id = DefOperator::createOrExist($operatorName)->id;
+
+        $regionName = iconv('windows-1251', 'utf-8', self::getValueFromData($data, 5));
+        $model->region_id = DefRegion::createOrExist($regionName)->id;
 
         return $model;
     }

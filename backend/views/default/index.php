@@ -27,7 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'to',
             'capacity',
             [
-                'attribute' => 'operator',
+                'attribute' => 'operator_id',
+                'value' => function ($data) {
+                    return $data->operator->name;
+                },
                 'format' => 'raw',
                 'filter' => Select2::widget([
                     'model' => $searchModel,
@@ -44,7 +47,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
             ],
             [
-                'attribute' => 'region',
+                'attribute' => 'region_id',
+                'value' => function ($data) {
+                    return $data->region->name;
+                },
                 'format' => 'raw',
                 'filter' => Select2::widget([
                     'model' => $searchModel,
