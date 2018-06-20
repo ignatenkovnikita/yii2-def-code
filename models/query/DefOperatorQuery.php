@@ -48,4 +48,9 @@ class DefOperatorQuery extends \common\ActiveQuery
     {
         return parent::one($db);
     }
+    
+    
+    public function byMnc($mnc){
+        return $this->andWhere(['mnc' => $mnc]);
+    }
 }
