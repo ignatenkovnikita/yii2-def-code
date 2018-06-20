@@ -9,11 +9,12 @@
 namespace ignatenkovnikita\defcode\models\search;
 
 
+use ignatenkovnikita\defcode\models\DefMncMcc;
 use ignatenkovnikita\defcode\models\DefMnp;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class DefMnpSearch extends DefMnp
+class DefMncMccSearch extends DefMncMcc
 {
     /**
      * @inheritdoc
@@ -21,7 +22,8 @@ class DefMnpSearch extends DefMnp
     public function rules()
     {
         return [
-            [['phone', 'def_mnc_mcc_id'], 'integer'],
+            [['mcc', 'mnc'], 'integer'],
+            [['name'], 'string'],
         ];
     }
 
@@ -55,8 +57,9 @@ class DefMnpSearch extends DefMnp
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'phone' => $this->phone,
-            'def_mnc_mcc_id' => $this->def_mnc_mcc_id,
+            'mnc' => $this->mnc,
+            'mcc' => $this->mcc,
+            'name' => $this->name,
         ]);
 
 

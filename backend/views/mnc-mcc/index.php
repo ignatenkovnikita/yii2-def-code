@@ -12,7 +12,7 @@ use yii\grid\GridView;
 /* @var $regions DefCode[] */
 /* @var $types DefCode[] */
 
-$this->title = Yii::t('defcode', 'Def Mnp');
+$this->title = Yii::t('defcode', 'Def MNC MCC');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="def-mnp-index">
@@ -23,8 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'phone',
-            'def_mnc_mcc_id',
+            'name',
+            'mcc',
+            'mnc',
         ],
     ]); ?>
 
