@@ -11,6 +11,7 @@ namespace ignatenkovnikita\defcode\components;
 
 use ignatenkovnikita\csv\AbstractImporter;
 use ignatenkovnikita\csv\ImportInterface;
+use ignatenkovnikita\defcode\models\DefMncMcc;
 use ignatenkovnikita\defcode\models\DefMnp;
 use ignatenkovnikita\defcode\models\DefMnpFactory;
 
@@ -35,8 +36,12 @@ class MnpUpdater extends AbstractImporter implements ImportInterface
                     'flags' => FILTER_FLAG_ALLOW_OCTAL,
                 );
                 $model->phone = preg_replace('/[^0-9]/', '', $line[0]);
-                $model->mcc = preg_replace('/[^0-9]/', '', $line[1]);
-                $model->mnc = preg_replace('/[^0-9]/', '', $line[2]);
+                $defMncMcc = DefMncMcc::find()->andWhere([
+                    'mnc' => preg_replace('/[^0-9]/', '', $line[2]),
+                    'mcc' => preg_replace('/[^0-9]/', '', $line[1])
+
+                ])->one();
+                $model->def_mnc_mcc_id = $defMncMcc ? $defMncMcc->id : null;
 
                 if ($model->save()) {
                     $insertLines++;

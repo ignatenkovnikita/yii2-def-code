@@ -20,7 +20,6 @@ class MnpImporter extends AbstractImporter implements ImportInterface
         $transaction = \Yii::$app->db->beginTransaction();
 
 
-        die('start insert ');
         $isCommit = true;
         $insertLines = 0;
         foreach ($data as $i => $line) {

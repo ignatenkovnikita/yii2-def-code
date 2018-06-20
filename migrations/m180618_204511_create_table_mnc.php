@@ -19,7 +19,7 @@ class m180618_204511_create_table_mnc extends Migration
      */
     public function safeUp()
     {
-
+        
         $this->createTable(self::TABLE_MNC, [
             'id' => $this->primaryKey(),
             'phone' => $this->bigInteger()->notNull(),

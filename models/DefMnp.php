@@ -9,6 +9,7 @@
 namespace ignatenkovnikita\defcode\models;
 
 
+use ignatenkovnikita\defcode\models\query\DefMnpQuery;
 use yii\db\ActiveRecord;
 
 class DefMnp extends ActiveRecord
@@ -28,9 +29,9 @@ class DefMnp extends ActiveRecord
     public function rules()
     {
         return [
-            [['phone'], 'required'],
-            [['phone'], 'integer'],
-            [['mnc', 'mcc'], 'string', 'max' => 255],
+            [['phone', 'def_mnc_mcc_id'], 'required'],
+            [['phone', 'def_mnc_mcc_id'], 'integer'],
+            [['def_mnc_mcc_id'], 'exist', 'skipOnError' => true, 'targetClass' => DefMncMcc::className(), 'targetAttribute' => ['def_mnc_mcc_id' => 'id']],
         ];
     }
 
@@ -42,17 +43,25 @@ class DefMnp extends ActiveRecord
         return [
             'id' => 'ID',
             'phone' => 'Phone',
-            'mnc' => 'Mnc',
-            'mcc' => 'Mcc',
+            'def_mnc_mcc_id' => 'Def Mnc Mcc ID',
         ];
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     * @throws \Exception
+     */
+    public function getDefMncMcc()
+    {
+        return $this->hasOne($this->called_class_namespace . '\DefMncMcc', ['id' => 'def_mnc_mcc_id']);
+    }
+
+    /**
      * @inheritdoc
-     * @return \ignatenkovnikita\defcode\models\query\DefMnpQuery the active query used by this AR class.
+     * @return DefMnpQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \ignatenkovnikita\defcode\models\query\DefMnpQuery(get_called_class());
+        return new DefMnpQuery(get_called_class());
     }
 }

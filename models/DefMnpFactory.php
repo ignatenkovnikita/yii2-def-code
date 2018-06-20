@@ -24,8 +24,13 @@ class DefMnpFactory
         $model = new DefMnp();
         $model->phone = self::getValueFromData($data, 0);
         $value = self::getValueFromData($data, 1);
-        $model->mcc = substr($value, 0, 3);
-        $model->mnc = substr($value, 3);
+
+        $defMncMcc = DefMncMcc::find()->andWhere([
+            'mnc' => substr($value, 3),
+            'mcc' => substr($value, 0, 3)
+
+        ])->one();
+        $model->def_mnc_mcc_id = $defMncMcc ? $defMncMcc->id : null;
 
         return $model;
     }

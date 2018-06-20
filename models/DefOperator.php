@@ -20,7 +20,6 @@ use yii\db\Exception;
  *
  * @property integer $id ID
  * @property string $name Name
- * @property string $mnc MNC
  *
  * @property DefCode[] $defCodes
  */
@@ -42,7 +41,7 @@ class DefOperator extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'mnc'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -54,7 +53,6 @@ class DefOperator extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'mnc' => 'MNC',
         ];
     }
 
