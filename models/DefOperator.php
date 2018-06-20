@@ -10,6 +10,7 @@
 
 namespace ignatenkovnikita\defcode\models;
 
+use ignatenkovnikita\defcode\models\query\DefOperatorQuery;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
@@ -19,6 +20,7 @@ use yii\db\Exception;
  *
  * @property integer $id ID
  * @property string $name Name
+ * @property string $mnc MNC
  *
  * @property DefCode[] $defCodes
  */
@@ -40,7 +42,7 @@ class DefOperator extends ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string', 'max' => 255],
+            [['name', 'mnc'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,6 +54,7 @@ class DefOperator extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'mnc' => 'MNC',
         ];
     }
 

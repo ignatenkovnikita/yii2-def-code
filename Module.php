@@ -12,6 +12,7 @@ namespace ignatenkovnikita\defcode;
  */
 
 use ignatenkovnikita\defcode\console\DefCodeController;
+use ignatenkovnikita\defcode\console\MnpController;
 use ignatenkovnikita\defcode\models\DefCode;
 use yii\base\BootstrapInterface;
 
@@ -38,6 +39,10 @@ class Module extends \yii\base\Module implements BootstrapInterface
         if ($app instanceof \yii\console\Application) {
             $app->controllerMap['def-code'] = [
                 'class' => DefCodeController::class,
+//                'module' => $this
+            ];
+            $app->controllerMap['mnp'] = [
+                'class' => MnpController::class,
 //                'module' => $this
             ];
 //            $app->controllerNamespace = 'ignatenkovnikita\defcode\console';

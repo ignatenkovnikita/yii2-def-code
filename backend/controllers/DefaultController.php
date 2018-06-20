@@ -13,7 +13,7 @@ namespace ignatenkovnikita\defcode\backend\controllers;
  */
 
 use ignatenkovnikita\defcode\models\DefCode;
-use ignatenkovnikita\defcode\models\DefCodeSearch;
+use ignatenkovnikita\defcode\models\search\DefCodeSearch;
 use ignatenkovnikita\defcode\models\DefOperator;
 use ignatenkovnikita\defcode\models\DefRegion;
 use Yii;

@@ -2,6 +2,7 @@
 
 namespace ignatenkovnikita\defcode\models;
 
+use ignatenkovnikita\defcode\models\query\DefCodeQuery;
 use yii\db\ActiveRecord;
 
 

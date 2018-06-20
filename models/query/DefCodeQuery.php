@@ -1,6 +1,6 @@
 <?php
 
-namespace ignatenkovnikita\defcode\models;
+namespace ignatenkovnikita\defcode\models\query;
 
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;

@@ -43,7 +43,7 @@ class DbImporter extends AbstractImporter implements ImportInterface
 //                    Yii::$app->db->createCommand()->insert(DefCode::tableName(), $model->attributes)->execute();
                     $insertLines++;
                 } else {
-                    $this->addToLog('error save line ' . $i . ', errors ' . print_r($model->errors, true));
+                    $this->addToLog('error save line ' . $i . ', errors ' . print_r($model->errors, true).', errors: ' .print_r($model->attributes, true));
                 }
             } catch (Exception $e) {
                 $isCommit = false;

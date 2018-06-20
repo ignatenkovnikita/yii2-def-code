@@ -10,6 +10,7 @@
 
 namespace ignatenkovnikita\defcode\models;
 
+use ignatenkovnikita\defcode\models\query\DefRegionQuery;
 use Yii;
 use yii\db\Exception;
 

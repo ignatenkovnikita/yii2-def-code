@@ -8,8 +8,9 @@
  * @date        $date$
  */
 
-namespace ignatenkovnikita\defcode\models;
+namespace ignatenkovnikita\defcode\models\search;
 
+use ignatenkovnikita\defcode\models\DefCode;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

@@ -8,7 +8,7 @@
  * @date        $date$
  */
 
-namespace ignatenkovnikita\defcode\models;
+namespace ignatenkovnikita\defcode\models\query;
 
 use yii\helpers\ArrayHelper;
 
