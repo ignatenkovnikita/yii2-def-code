@@ -12,6 +12,7 @@ namespace ignatenkovnikita\defcode\console;
 use ignatenkovnikita\csv\CsvImporter;
 use ignatenkovnikita\csv\CsvReader;
 use ignatenkovnikita\defcode\components\MnpImporter;
+use ignatenkovnikita\defcode\components\MnpUpdater;
 use yii\console\Controller;
 
 class MnpController extends Controller
@@ -43,7 +44,7 @@ class MnpController extends Controller
 
     public function actionImport()
     {
-        ini_set('memory_limit', '-1');
+//        ini_set('memory_limit', '-1');
         $time = microtime(true);
 
 
@@ -68,6 +69,42 @@ class MnpController extends Controller
         }
         $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
 
+    }
+
+    public function actionUpdate($url){
+        $name = 'mnp_update';
+        $fileName = $this->basePath . $name . '.csv';
+        $this->log('download ' . $fileName);
+        if (file_exists($fileName)) {
+            $newFileName = $this->basePath . $name . '_' . date('Y-m-d-H-i-s', filemtime($fileName)) . '.csv';
+            rename($fileName, $newFileName);
+        }
+        file_put_contents($fileName, fopen($url, 'r'));
+
+
+
+        $time = microtime(true);
+
+
+        if (file_exists($fileName) && filesize($fileName)) {
+            $this->log('start file ' . $fileName . ', type ' . $type);
+
+            $importer = new CsvImporter();
+            $importer->setData(new CsvReader([
+                'filename' => $fileName,
+                'fgetcsvOptions' => [
+//                'delimiter' => '\n'
+                ],
+                'startFromLine' => 1
+            ]));
+            $importerClass = new MnpUpdater();
+            $r = $importer->import($importerClass, []);
+            $this->log($r);
+            $this->log('end file ' . $fileName . ', type ' . $type);
+        } else {
+            $this->log('not correct file ' . $fileName);
+        }
+        $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
     }
 
 

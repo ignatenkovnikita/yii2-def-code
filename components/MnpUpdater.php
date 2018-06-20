@@ -11,21 +11,33 @@ namespace ignatenkovnikita\defcode\components;
 
 use ignatenkovnikita\csv\AbstractImporter;
 use ignatenkovnikita\csv\ImportInterface;
+use ignatenkovnikita\defcode\models\DefMnp;
 use ignatenkovnikita\defcode\models\DefMnpFactory;
 
-class MnpImporter extends AbstractImporter implements ImportInterface
+class MnpUpdater extends AbstractImporter implements ImportInterface
 {
     public function import($data, $params)
     {
         $transaction = \Yii::$app->db->beginTransaction();
 
 
-        die('start insert ');
         $isCommit = true;
         $insertLines = 0;
         foreach ($data as $i => $line) {
             try {
-                $model = DefMnpFactory::createFromLine($line[0]);
+                $model = new DefMnp();
+                $options = array(
+                    'options' => array(
+                        'default' => 3, // значение, возвращаемое, если фильтрация завершилась неудачей
+                        // другие параметры
+                        'min_range' => 0
+                    ),
+                    'flags' => FILTER_FLAG_ALLOW_OCTAL,
+                );
+                $model->phone = preg_replace('/[^0-9]/', '', $line[0]);
+                $model->mcc = preg_replace('/[^0-9]/', '', $line[1]);
+                $model->mnc = preg_replace('/[^0-9]/', '', $line[2]);
+
                 if ($model->save()) {
                     $insertLines++;
                 } else {
