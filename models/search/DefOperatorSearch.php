@@ -21,7 +21,7 @@ class DefOperatorSearch extends \ignatenkovnikita\defcode\models\DefOperator
     {
         return [
             [['id'], 'integer'],
-            [['name', 'mnc'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -55,7 +55,6 @@ class DefOperatorSearch extends \ignatenkovnikita\defcode\models\DefOperator
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'mnc' => $this->mnc,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

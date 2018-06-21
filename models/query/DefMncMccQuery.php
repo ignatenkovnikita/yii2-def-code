@@ -11,6 +11,7 @@ namespace ignatenkovnikita\defcode\models\query;
 
 use common\behaviors\ListBehavior;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 class DefMncMccQuery extends ActiveQuery
 {
