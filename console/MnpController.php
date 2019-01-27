@@ -13,6 +13,8 @@ use ignatenkovnikita\csv\CsvImporter;
 use ignatenkovnikita\csv\CsvReader;
 use ignatenkovnikita\defcode\components\MnpImporter;
 use ignatenkovnikita\defcode\components\MnpUpdater;
+use ignatenkovnikita\defcode\models\DefMnp;
+use ignatenkovnikita\defcode\models\DefMnpTemp;
 use yii\console\Controller;
 
 class MnpController extends Controller
@@ -44,69 +46,63 @@ class MnpController extends Controller
 
     public function actionImport()
     {
-//        ini_set('memory_limit', '-1');
         $time = microtime(true);
 
 
         $fileName = $this->basePath . 'mnp.csv';
         if (file_exists($fileName) && filesize($fileName)) {
-            $this->log('start file ' . $fileName . ', type ' . $type);
+            $this->log('start file ' . $fileName);
 
-            $importer = new CsvImporter();
-            $importer->setData(new CsvReader([
-                'filename' => $fileName,
-                'fgetcsvOptions' => [
-//                'delimiter' => '\n'
-                ],
-                'startFromLine' => 1
-            ]));
-            $importerClass = new MnpImporter();
-            $r = $importer->import($importerClass, []);
-            $this->log($r);
-            $this->log('end file ' . $fileName . ', type ' . $type);
+            // todo move in configuration
+            \Yii::$app->db->attributes = [\PDO::MYSQL_ATTR_LOCAL_INFILE => true,];
+
+            \Yii::$app->db->createCommand('TRUNCATE def_mnp_temp')->execute();
+            // todo replace with query builder
+            $sql = "LOAD DATA LOCAL INFILE '" . $fileName . "'
+        INTO TABLE `def_mnp_temp`
+        FIELDS
+            TERMINATED BY ';'
+            ENCLOSED BY '\"'
+        LINES
+            TERMINATED BY '\n'
+         IGNORE 1 LINES
+        (number, @mcc)
+        set mcc = substring(@mcc,1,3),
+        mnc = substring(@mcc,4,6)
+        ";
+
+            $inserFromFile = \Yii::$app->db->createCommand($sql)->execute();
+            $this->log('import in temp rows ' . $inserFromFile);
+
+            \Yii::$app->db->createCommand('TRUNCATE def_mnp')->execute();
+
+            // todo replace with query builder
+            $sql = "insert into def_mnp (phone, def_mnc_mcc_id) select
+                                              number,
+                                              (select id
+                                               from def_mnc_mcc
+                                               where def_mnc_mcc.mnc = def_mnp_temp.mnc and
+                                                     def_mnc_mcc.mcc = def_mnp_temp.mcc
+                                              ) as mncmcc
+                                            from def_mnp_temp
+                                            where (select id
+                                                   from def_mnc_mcc
+                                                   where def_mnc_mcc.mnc = def_mnp_temp.mnc and
+                                                         def_mnc_mcc.mcc = def_mnp_temp.mcc) is not null;";
+
+
+            $inserInTable = \Yii::$app->db->createCommand($sql)->execute();
+            $this->log('import in table rows ' . $inserInTable);
+            $this->log('not import rows ' . ($inserFromFile - $inserInTable));
+
+
+            $this->log('end file ' . $fileName);
         } else {
             $this->log('not correct file ' . $fileName);
         }
         $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
 
     }
-
-    public function actionUpdate($url){
-        $name = 'mnp_update';
-        $fileName = $this->basePath . $name . '.csv';
-        $this->log('download ' . $fileName);
-        if (file_exists($fileName)) {
-            $newFileName = $this->basePath . $name . '_' . date('Y-m-d-H-i-s', filemtime($fileName)) . '.csv';
-            rename($fileName, $newFileName);
-        }
-        file_put_contents($fileName, fopen($url, 'r'));
-
-
-
-        $time = microtime(true);
-
-
-        if (file_exists($fileName) && filesize($fileName)) {
-            $this->log('start file ' . $fileName . ', type ' . $type);
-
-            $importer = new CsvImporter();
-            $importer->setData(new CsvReader([
-                'filename' => $fileName,
-                'fgetcsvOptions' => [
-//                'delimiter' => '\n'
-                ],
-                'startFromLine' => 1
-            ]));
-            $importerClass = new MnpUpdater();
-            $r = $importer->import($importerClass, []);
-            $this->log($r);
-            $this->log('end file ' . $fileName . ', type ' . $type);
-        } else {
-            $this->log('not correct file ' . $fileName);
-        }
-        $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
-    }
-
 
     protected function log($text)
     {

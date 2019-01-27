@@ -49,6 +49,12 @@ Workflow load and import data:
 ./console/yii def-code/delete-old-files
 ```
 
+
+Import Mnp
+Links
+https://smsc.ru/sys/get_mnp.php?login=your_login&psw=your_password
+https://smsc.ru/sys/get_mnp.php?login=your_login&psw=your_password&date=17.06.2018
+
 TODO
 - add test
 - refactoring
