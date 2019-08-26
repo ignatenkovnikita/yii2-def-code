@@ -35,6 +35,9 @@ class MnpController extends Controller
 
     public function actionDownload()
     {
+        $time = microtime(true);
+
+
         $url = $this->moduleDefCode->mnpAll;
         $url = str_replace('{login}', $this->moduleDefCode->smscLogin, $url);
         $url = str_replace('{password}', $this->moduleDefCode->smscPassword, $url);
@@ -47,6 +50,8 @@ class MnpController extends Controller
             rename($fileName, $newFileName);
         }
         file_put_contents($fileName, fopen($url, 'r'));
+
+        $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
 
 
     }
@@ -115,6 +120,8 @@ class MnpController extends Controller
 
     public function actionDownloadDetail()
     {
+        $time = microtime(true);
+
         $url = $this->moduleDefCode->mnpDetail;
         $url = str_replace('{login}', $this->moduleDefCode->smscLogin, $url);
         $url = str_replace('{password}', $this->moduleDefCode->smscPassword, $url);
@@ -128,6 +135,8 @@ class MnpController extends Controller
             rename($fileName, $newFileName);
         }
         file_put_contents($fileName, fopen($url, 'r'));
+        $this->log('done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n");
+
     }
 
     public function actionImportDetail()
@@ -146,7 +155,6 @@ class MnpController extends Controller
                 $re = '/(\d{11}).+ (\d{3}).+ (\d{1,4})/';
                 $str = $result;
 
-                $this->log($str);
 
                 preg_match($re, $str, $matches);
                 if ($matches) {
