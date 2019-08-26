@@ -33,6 +33,12 @@ class Module extends \yii\base\Module implements BootstrapInterface
         DefCode::TYPE_ABC9 => 'https://www.rossvyaz.ru/docs/articles/Kody_DEF-9kh.csv',
     ];
 
+    public $smscLogin;
+    public $smscPassword;
+
+    public $mnpAll = 'https://smsc.ru/sys/get_mnp.php?login={login}&psw={password}';
+    public $mnpDetail='https://smsc.ru/sys/get_mnp.php?login={login}&psw={password}&date={date}';
+
     public
     function bootstrap($app)
     {

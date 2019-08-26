@@ -9,7 +9,7 @@ class m180620_190458_add_data extends Migration
 {
     const TABLE_DEF_MNC = '{{%def_mnc_mcc}}';
 
-    /**
+    /**https://smsc.ru/sys/get_mnp.php?login=avtosushi&psw=FDtOlN06rQ81
      * {@inheritdoc}
      */
     public function safeUp()
