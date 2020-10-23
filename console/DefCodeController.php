@@ -86,7 +86,15 @@ class DefCodeController extends \yii\console\Controller
                 $newFileName = $this->basePath . $type . '_' . date('Y-m-d-H-i-s', filemtime($fileName)) . '.csv';
                 rename($fileName, $newFileName);
             }
-            file_put_contents($fileName, fopen($url, 'r'));
+            $arrContextOptions=array(
+                "ssl"=>array(
+                    "verify_peer"=>false,
+                    "verify_peer_name"=>false,
+                ),
+            );
+            $sw=file_get_contents($url, false, stream_context_create($arrContextOptions));
+            file_put_contents($fileName, $sw);
+//            file_put_contents($fileName, fopen($url, 'r'));
         }
     }
 
