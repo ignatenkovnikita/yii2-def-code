@@ -12,6 +12,7 @@ namespace ignatenkovnikita\defcode\console;
 use ignatenkovnikita\defcode\models\DefMncMcc;
 use ignatenkovnikita\defcode\models\DefMnp;
 use yii\console\Controller;
+use yii\db\Exception;
 
 class MnpController extends Controller
 {
@@ -158,10 +159,21 @@ class MnpController extends Controller
 
                 preg_match($re, $str, $matches);
                 if ($matches) {
-                    $mcc = $matches[3];
-                    $mnc = $matches[2];
+                    $mnc = $matches[3];
+                    $mcc = $matches[2];
                     $phone = $matches[1];
-                    $defMncMcc = DefMncMcc::find()->andWhere(['mcc' => $mnc, 'mnc' => $mcc])->one();
+                    $defMncMcc = DefMncMcc::find()->andWhere(['mcc' => $mcc, 'mnc' => $mnc])->one();
+
+                    if (empty($defMncMcc) && $mcc == DefMncMcc::MCC_RUSSIA) {
+                        $defMncMcc = new DefMncMcc();
+                        $defMncMcc->mcc = $mcc;
+                        $defMncMcc->mnc = $mnc;
+                        $defMncMcc->name = 'Новый оператор';
+                        if (!$defMncMcc->save()) {
+                            throw new Exception('Error save DefMncMcc', $defMncMcc->errors);
+                        }
+                    }
+
                     if ($defMncMcc) {
                         $defMnp = new DefMnp();
                         $defMnp->phone = $phone;

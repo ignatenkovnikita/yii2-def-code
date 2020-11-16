@@ -3,7 +3,6 @@
 namespace ignatenkovnikita\defcode\models;
 
 use ignatenkovnikita\defcode\models\query\DefCodeQuery;
-use yii\db\ActiveRecord;
 
 
 /**
@@ -19,7 +18,7 @@ use yii\db\ActiveRecord;
  * @property integer $created_at Created At
  * @property integer $updated_at Updated At
  */
-class DefCode extends ActiveRecord
+class DefCode extends \yii\db\ActiveRecord
 {
 
     const TYPE_ABC3 = 'abc3';

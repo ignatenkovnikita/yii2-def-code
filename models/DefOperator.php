@@ -12,7 +12,6 @@ namespace ignatenkovnikita\defcode\models;
 
 use ignatenkovnikita\defcode\models\query\DefOperatorQuery;
 use Yii;
-use yii\db\ActiveRecord;
 use yii\db\Exception;
 
 /**
@@ -23,7 +22,7 @@ use yii\db\Exception;
  *
  * @property DefCode[] $defCodes
  */
-class DefOperator extends ActiveRecord
+class DefOperator extends \yii\db\ActiveRecord
 {
 
 

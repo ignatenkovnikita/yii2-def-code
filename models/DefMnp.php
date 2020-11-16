@@ -10,9 +10,8 @@ namespace ignatenkovnikita\defcode\models;
 
 
 use ignatenkovnikita\defcode\models\query\DefMnpQuery;
-use yii\db\ActiveRecord;
 
-class DefMnp extends ActiveRecord
+class DefMnp extends \yii\db\ActiveRecord
 {
 
     /**

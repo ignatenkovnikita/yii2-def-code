@@ -7,6 +7,7 @@
  */
 
 namespace ignatenkovnikita\defcode\models;
+
 use ignatenkovnikita\defcode\models\query\DefMncMccQuery;
 
 /**
@@ -19,8 +20,10 @@ use ignatenkovnikita\defcode\models\query\DefMncMccQuery;
  *
  * @property DefMnp[] $defMnps
  */
-class DefMncMcc extends \common\ActiveRecord
+class DefMncMcc extends \yii\db\ActiveRecord
 {
+
+    const MCC_RUSSIA = 250;
 
     /**
      * @inheritdoc

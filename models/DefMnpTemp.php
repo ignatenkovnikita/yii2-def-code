@@ -3,7 +3,6 @@
 namespace ignatenkovnikita\defcode\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "def_mnp_temp".
@@ -12,7 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $mcc Mcc
  * @property integer $mnc Mnc
  */
-class DefMnpTemp extends ActiveRecord
+class DefMnpTemp extends \yii\db\ActiveRecord
 {
 
 

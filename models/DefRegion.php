@@ -22,7 +22,7 @@ use yii\db\Exception;
  *
  * @property DefCode[] $defCodes
  */
-class DefRegion extends \common\ActiveRecord
+class DefRegion extends \yii\db\ActiveRecord
 {
 
     /**
