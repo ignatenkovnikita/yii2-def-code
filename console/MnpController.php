@@ -106,8 +106,13 @@ class MnpController extends Controller
 
 
             $inserInTable = \Yii::$app->db->createCommand($sql)->execute();
+
             $this->log('import in table rows ' . $inserInTable);
             $this->log('not import rows ' . ($inserFromFile - $inserInTable));
+
+            $this->log('truncate  def_mnp_temp');
+
+            \Yii::$app->db->createCommand('TRUNCATE def_mnp_temp')->execute();
 
 
             $this->log('end file ' . $fileName);
